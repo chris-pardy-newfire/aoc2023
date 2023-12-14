@@ -1,9 +1,9 @@
-function execute(day::Int, parts...)
+function execute(day::Int, parts...; keepempty = false)
     function loadinput(file)
         let f
             try
                 f = open(file)
-                return split(read(f, String), '\n', keepempty=false)
+                return split(read(f, String), '\n', keepempty=keepempty)
             finally
                 if f !== nothing
                     close(f)
@@ -15,4 +15,13 @@ function execute(day::Int, parts...)
     for part in parts
         println(part(contents))
     end
+end
+
+function makegrid(contents)
+    vcat(
+        map(
+            ln -> hcat(ln...),
+            contents
+        )...
+    )
 end
